@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class ClienteControle {
     @ApiResponse(responseCode = "201",description = " success",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<ClienteDto>salvarCliente(@RequestBody ClienteDto clienteDto){
+    public ResponseEntity<ClienteDto>salvarCliente(@RequestBody @Valid ClienteDto clienteDto){
         var salvar = clienteServico.salvarCliente(clienteDto);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(salvar.getId()).toUri();
@@ -54,7 +55,7 @@ public class ClienteControle {
     @ApiResponse(responseCode = "200",description = " success",content = {
             @Content(mediaType = "application.json",schema = @Schema(implementation = ResponseEntity.class))
     })
-    public ResponseEntity<AtualizarDto>atualizarCliente(@RequestBody AtualizarDto atualizarDto ){
+    public ResponseEntity<AtualizarDto>atualizarCliente(@RequestBody @Valid AtualizarDto atualizarDto ){
         var atualizar = clienteServico.atualizarClientes(atualizarDto);
         return ResponseEntity.ok().body(new AtualizarDto(atualizar));
     }
